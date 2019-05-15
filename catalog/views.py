@@ -28,6 +28,15 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
+class AuthorListView(generic.ListView):
+    model = Author
+
+
+class AuthorDetailView(generic.DetailView):
+    model = Author
+    paginate_by = 5
+
+
 class BookListView(generic.ListView):
     model = Book
     paginate_by = 5
