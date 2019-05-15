@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1>Title: {{ book.title }}</h1>
+    {% if book.subtitle %}<p><strong>{{ book.subtitle }}</strong></p>{% endif %}
 
     <p><strong>Author:</strong> <a href="{% url 'author-detail' book.author.pk %}">{{ book.author }}</a></p>
     <p><strong>Summary:</strong> {{ book.summary }}</p>

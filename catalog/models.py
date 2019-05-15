@@ -24,10 +24,11 @@ class Language(models.Model):
 class Book(models.Model):
     """Model representing a book (but not a specific copy of that book)"""
     title = models.CharField(max_length=200)
+    subtitle = models.CharField(max_length=200, blank=True, null=True)
     author = models.ForeignKey('Author', on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=10000,
                                help_text='Enter a brief description of the book')
-    isbn = models.CharField('ISBN', max_length=13,
+    isbn = models.CharField('ISBN', max_length=14,
                             help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre,
                                    help_text='Select a genre for this book')
@@ -49,7 +50,7 @@ class Book(models.Model):
 
 
 class BookInstance(models.Model):
-    """Model representing a specific copy of a book (i.e. one that can be borroed from the library)"""
+    """Model representing a specific copy of a book (i.e. one that can be borrowed from the library)"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4,
                           help_text='Unique ID for this particular book across the whole library')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
