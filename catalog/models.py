@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 import uuid
 
 
@@ -55,6 +57,8 @@ class BookInstance(models.Model):
                           help_text='Unique ID for this particular book across the whole library')
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
+
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     due_back = models.DateField(null=True, blank=True)
 
     LOAN_STATUS = (
@@ -69,6 +73,16 @@ class BookInstance(models.Model):
 
     class Meta:
         ordering = ['due_back']
+        permissions = (
+            ('can_mark_returned', 'Set book as returned'),
+        )
+
+
+    @property
+    def is_overdue(self):
+        if self.due_back and timezone.now().date() > self.due_back:
+            return True
+        return False
 
     def __str__(self):
         """String representing the Model object"""
