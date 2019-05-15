@@ -30,7 +30,7 @@ def index(request):
     }
 
     # Render the HTML template 'index.html' with data from the context variable
-    return render(request, 'index.html', context=context)
+    return render(request, '../templates/index.html', context=context)
 
 
 class AuthorListView(generic.ListView):
